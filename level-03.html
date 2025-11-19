@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>?NULL404~</title>
+    <link rel="shotcut icon" href="yell-run.png">
+    <link rel="stylesheet" href="styles1.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body class="body">
+
+    <div class="fondo" aria-hidden="true"></div>
+
+    <!-- Dropdown panel moved to top-left and 3x3 grid -->
+    <div class="top-left-controls">
+        <button class="dropdown-toggle" id="openChars" aria-expanded="false">P1/P2</button>
+    </div>
+    <div class="dropdown-panel" id="charsPanel" aria-hidden="true">
+        <div class="table" id="player1Panel">
+            <div><strong> Maestros </strong></div>
+            <div class="chars-list">
+                <div data-char="accolla" class="char-box"><img src="acollassj.png" class="selector"></div>
+                <div data-char="ageitos" class="char-box"><img src="ageitosssj.png" class="selector"></div>
+                <div data-char="extra2" class="char-box"><img src="brunossj.png" class="selector"></div>
+                <div data-char="giachero" class="char-box"><img src="giacherossj.png" class="selector"></div>
+                <div data-char="marino" class="char-box"><img src="marinossj.png" class="selector"></div>
+                <div data-char="mario" class="char-box"><img src="mariossj.png" class="selector"></div>
+                <div data-char="extra1" class="char-box"><img src="priscilassj.png" class="selector"></div>
+                <div data-char="trani" class="char-box"><img src="tranissj.png" class="selector"></div>
+                <div data-char="zuniga" class="char-box"><img src="zunigassj.png" class="selector"></div>
+            </div>
+        </div>
+    </div>
+
+    <input type="hidden" id="player1Selected" value="">
+    <input type="hidden" id="player2Selected" value="">
+
+    <div class="game-container" id="gameContainer">
+        <div id="chicken1" class="chicken gravity-down"></div>
+        <div id="chicken2" class="chicken gravity-down"></div>
+
+        <div class="score-container" id="scoreContainer">Score: <span id="score">0</span></div>
+
+        <div id="victoryScreen" class="victory-screen hidden">
+            <div class="input-container">
+                <input type="text" id="victoryNameInput" placeholder="Escribe tu nombre" maxlength="10">
+                <button id="victoryNameOk">OK</button>
+            </div>
+            <div class="winner">
+                <img id="winnerImage" src="" alt="Jugador Ganador" class="winner-chicken">
+                <img src="trophy2.png" alt="Trofeo" class="trophy">
+                <p id="winnerName"></p>
+            </div>
+            <div class="button-container">
+                <button id="retryButton">Reintentar</button>
+                <button id="clasifBtn" class="clasif-btn"><i class='bx bx-medal'></i></button>
+            </div>
+        </div>
+
+        <button id="playButton" class="play-button">
+            <div class="triangle"></div>
+        </button>
+        <button id="fullscreenButton" class="fullscreen-button">
+            <i class='bx bx-fullscreen' id="fullscreenIcon"></i>
+        </button>
+
+        </div>
+    </div>
+
+    <audio id="backgroundMusic" src="cyberAttack.mp3" loop autoplay></audio>
+    <audio id="clickSound" src="jump2.mp3"></audio>
+    <audio id="victorySound" src="winner.mp3"></audio>
+
+    <script src="script-03.js"></script>
+    <script src="script-clasif.js"></script>
+</body>
+</html>

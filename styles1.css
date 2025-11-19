@@ -1,0 +1,656 @@
+/* .clasif-table {
+    display: flex;
+    flex-direction: inl;
+    align-items: center;
+    justify-content: flex-start;
+    background: rgba(30,30,40,0.95);
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+    padding: 10px 12px;
+    margin-left: 18px;
+    min-width: 120px;
+    max-width: 160px;
+    font-size: 13px;
+} */
+
+.clasif-title {
+    font-weight: bold;
+    font-size: 1rem;
+    margin-bottom: 4px;
+    color: #ffd700;
+    text-align: center;
+}
+
+.clasif-table table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 4px;
+}
+.clasif-table th, .clasif-table td {
+    border-bottom: 1px solid #444;
+    padding: 2px 6px;
+    text-align: center;
+    color: #fff;
+}
+.clasif-table th {
+    font-size: 0.95em;
+    color: #ffd700;
+}
+.clasif-table tr:last-child td {
+    border-bottom: none;
+}
+/* Reset de estilos */
+* {
+    margin: 0;
+    padding: 0;
+}
+
+@import url("fondo.css");
+
+/* Estilo del cuerpo */
+body {
+    min-width: 100vw;
+    min-height: 100vh;
+    margin: 0;
+    background-color: #000;
+    color: #fff;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Contenedor para el título y subtítulo */
+.title-container {
+    top: -100px;
+    font-family: magneto, sans-serif;
+    text-align: center;
+    position: relative;
+}
+
+.subtitle {
+    top: -10px;
+    font-family: magneto, sans-serif;
+    text-align: center;
+    position: relative;
+    font-size: 18px;
+    color: #333;
+}
+
+.personajes {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative; /* position context for dropdown panel to place it outside game container */
+}
+
+.selector {
+    width: 50px;
+    height: 50px;
+    margin: 10px;
+}
+
+/* .selector:hover {
+    transform: scale(1.5); 
+    transition: .5s;
+    border-radius: 25px;
+    box-shadow: 0px 3px 15px 5px white;
+} */
+
+/* Contenedor del juego */
+.game-container {
+    top: -10px;
+    position: relative;
+    background-image: url(Fondo.gif);
+    background-size: cover;
+    margin: 0 auto;
+    border: 2px solid #fff;
+    overflow: hidden;
+    /* Slightly smaller to match level 1/2 sizing */
+    min-width: 720px;
+    min-height: 400px;
+    width: 720px;
+    height: 400px;
+}
+
+/* Ajuste para pantallas medianas (tablets) */
+@media (max-width: 1024px) {
+    .game-container {
+        min-width: 800px;
+        min-height: 500px;
+    }
+}
+
+/* Ajuste para pantallas pequeñas (smartphones en modo horizontal) */
+@media (max-width: 768px) {
+    .game-container {
+        min-width: 600px;
+        min-height: 400px;
+    }
+}
+
+/* Ajuste para pantallas muy pequeñas (smartphones en modo vertical) */
+@media (max-width: 480px) {
+    .game-container {
+        min-width: 100%;
+        min-height: 300px;
+        margin-left: 0;
+    }
+}
+
+.fullscreen-button {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    padding: 10px 15px;
+    font-size: 16px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: opacity 0.3s;
+}
+
+.fullscreen-button:hover {
+    opacity: 1;
+}
+
+
+/* Estilo de los pollos */
+.chicken {
+    width: 25px;
+    height: 25px;
+    position: absolute;
+    background-size: cover;
+    z-index: 2;
+    transition: transform 0s;
+    transform: matrix(180);
+}
+
+/*Animacion de pollos cambiando de gravedad*/
+.chicken.gravity-down {
+    animation: contraccion 0.7s ease-in-out;
+    transform: rotate(0deg) scaleX(1);
+}
+
+.chicken.gravity-up {
+    animation: contraccion 0.7s ease-in-out;
+    transform: rotate(180deg) scaleX(-1);
+}
+
+/* Pollos individuales */
+#chicken1 {
+    left: 50px;
+    top: 275px; /* Posición inicial */
+}
+
+#chicken2 {
+    left: 50px;
+    top: 325px; /* Posición inicial */
+}
+
+/* Estilo de las plataformas */
+.platform {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    background-color: blue; /* Color inicial, excluyendo rojo */
+    border: 2px solid black; /* Borde negro que no cambia de color */
+    box-sizing: border-box;
+    border-radius: 5px;
+    z-index: 1; /* Asegura que las plataformas estén por debajo de los pollos */
+}
+
+/* Botón de Play Personalizado */
+.play-button {
+    width: 100px;
+    height: 100px;
+    background-color: rgba(0, 128, 0, 0.8); /* Verde opaco */
+    border: none;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 5; /* Por encima del contenedor de juego */
+    transition: background-color 0.3s;
+}
+
+.play-button:hover {
+    background-color: rgba(0, 128, 0, 1); /* Verde más claro al pasar el mouse */
+}
+
+.play-button .triangle {
+    width: 0;
+    height: 0;
+    border-left: 20px solid white;
+    border-top: 12px solid transparent;
+    border-bottom: 12px solid transparent;
+}
+
+/* Pantalla de victoria centrada */
+.victory-screen {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 335px;
+    height: 200px;
+    background-color: rgba(0, 0, 0, 0.85);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    border: 2px solid #fff;
+    border-radius: 10px;
+}
+
+.victory-screen.hidden {
+    display: none;
+}
+
+.victory-screen h2 {
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+.winner {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.winner-chicken {
+    width: 33px;
+    height: 33px;
+    margin-right: 13px;
+}
+
+.trophy {
+    width: 33px;
+    height: 33px;
+    margin-right: 13px;
+}
+
+#winnerName {
+    font-size: 16px;
+}
+
+#retryButton {
+    display: flex;
+    padding: 7px 13px;
+    font-size: 12px;
+    cursor: pointer;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+}
+
+#retryButton:hover {
+    background-color: #218838;
+}
+
+.clasif-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    margin-left: 10px;
+    background: #222;
+    border: 2px solid #ffd700;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: box-shadow 0.2s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+}
+.clasif-btn:hover {
+    box-shadow: 0 4px 16px rgba(255,215,0,0.18);
+    background: #333;
+}
+.clasif-btn i {
+    color: #ffd700;
+    font-size: 1.5rem;
+}
+
+/* --- Dropdown and character selector styles (copied from main styles) --- */
+.top-right-controls .dropdown-toggle{
+    width: 30px;
+    height: 30px;
+    border-radius: 6px;
+    border: none;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    cursor: pointer;
+}
+.top-left-controls {
+    position: absolute;
+    top: 32px;
+    left: 32px;
+    z-index: 1100;
+}
+.dropdown-toggle {
+    width: 90px;
+    height: 60px;
+    background: #888;
+    color: #fff;
+    border: none;
+    border-radius: 16px;
+    font-size: 1.3rem;
+    font-weight: bold;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+    cursor: pointer;
+    margin-bottom: 12px;
+    transition: background 0.2s, box-shadow 0.2s;
+}
+.dropdown-toggle:hover {
+    background: #666;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.28);
+}
+.dropdown-panel {
+    position: absolute;
+    top: 100px;
+    left: 32px;
+    width: 240px;
+    background: #888;
+    border: none;
+    border-radius: 24px;
+    padding: 24px 18px 18px 18px;
+    display: none;
+    z-index: 1000;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+}
+.dropdown-panel.open {
+    display: grid;
+    grid-template-rows: 1fr;
+    align-items: center;
+}
+.chars-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 18px;
+    margin-top: 8px;
+}
+.char-box {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid #fff;
+    border-radius: 14px;
+    background: #888;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+.char-box:hover {
+    border-color: #1976d2;
+    box-shadow: 0 4px 16px rgba(25,118,210,0.18);
+}
+.char-box img {
+    width: 90%;
+    height: 90%;
+    object-fit: contain;
+}
+
+/* Ensure side character tables appear as vertical sidebars centered to the game */
+.personajes > .table:first-child{ /* left sidebar */
+    margin-right: 20px;
+}
+.personajes > .table:last-child{ /* right sidebar */
+    margin-left: 20px;
+}
+
+/* small helper for stacking on mobile */
+@media (max-width: 800px) {
+    .dropdown-panel{flex-direction:column; max-width: 90vw; right: 16px;}
+}
+
+/* corner blobs (optional) */
+.corner-blob{
+    position: absolute;
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    border: 6px solid #fff;
+    z-index: 0;
+    pointer-events: none;
+}
+.corner-blob.left{ left: 0; bottom: 0; background: radial-gradient(circle at 30% 30%, #ff4d4d 40%, #b30000 60%); }
+.corner-blob.right{ right: 0; top: 0; background: radial-gradient(circle at 70% 70%, #4d7bff 40%, #0033b3 60%); }
+
+.clasif-table {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    background: rgba(30,30,40,0.95);
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+    padding: 10px 12px;
+    margin-left: 18px;
+    min-width: 120px;
+    max-width: 160px;
+    font-size: 13px;
+}
+
+.clasif-title {
+    font-weight: bold;
+    font-size: 1rem;
+    margin-bottom: 4px;
+    color: #ffd700;
+    text-align: center;
+}
+
+.clasif-table table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 4px;
+}
+.clasif-table th, .clasif-table td {
+    border-bottom: 1px solid #444;
+    padding: 2px 6px;
+    text-align: center;
+    color: #fff;
+}
+.clasif-table th {
+    font-size: 0.95em;
+    color: #ffd700;
+}
+.clasif-table tr:last-child td {
+    border-bottom: none;
+}
+
+.clasif-panel {
+    position: fixed;
+    top: 40px;
+    right: 40px;
+    width: 320px;
+    background: rgba(20,20,30,0.98);
+    border: 3px solid #ffd700;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.28);
+    z-index: 99999;
+    padding: 16px 12px 12px 12px;
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    font-family: inherit;
+    animation: fadeInClasif 0.3s;
+}
+.clasif-panel.active {
+    display: flex;
+}
+@keyframes fadeInClasif {
+    from { opacity: 0; transform: translateX(40px); }
+    to { opacity: 1; transform: none; }
+}
+.clasif-header {
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: #ffd700;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+}
+.clasif-top {
+    background: #222;
+    border: 2px solid #fff;
+    border-radius: 10px;
+    padding: 10px 8px 8px 8px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+.clasif-top-rank {
+    font-size: 2.2rem;
+    color: #ffd700;
+    font-weight: bold;
+    margin-bottom: 2px;
+}
+.clasif-top-score {
+    font-size: 1.1rem;
+    color: #fff;
+    font-weight: bold;
+    margin-bottom: 2px;
+}
+.clasif-top-img img {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    border: 2px solid #ffd700;
+    background: #222;
+    object-fit: cover;
+    margin-bottom: 2px;
+}
+.clasif-top-name, #victoryNameInput {
+    width: 90%;
+    padding: 4px 8px;
+    border-radius: 6px;
+    border: 1px solid #ffd700;
+    font-size: 1rem;
+    text-align: center;
+    margin-bottom: 2px;
+    background: #111;
+    color: #ffd700;
+}
+.clasif-ok-btn, #victoryNameOk {
+    background: #ffd700;
+    color: #222;
+    border: none;
+    border-radius: 6px;
+    padding: 2px 10px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-left: 2px;
+    transition: background 0.2s;
+}
+.clasif-ok-btn:disabled, #victoryNameOk:disabled {
+    background: #ccc;
+    color: #888;
+    cursor: not-allowed;
+}
+.clasif-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    max-height: 320px;
+    overflow-y: auto;
+}
+.clasif-row {
+    background: #222;
+    border: 1px solid #fff;
+    border-radius: 6px;
+    padding: 4px 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #fff;
+    font-size: 0.95rem;
+    min-height: 38px;
+}
+.clasif-row img {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    border: 1px solid #ffd700;
+    background: #222;
+    object-fit: cover;
+}
+
+#victoryNameInput {
+    width: 70%;
+    padding: 6px;
+    margin-right: 10px;
+    border: 2px solid #ffd700;
+    border-radius: 5px;
+    background-color: #111;
+    color: #ffd700;
+    font-size: 14px;
+    text-align: center;
+}
+
+.input-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.button-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
+
+.chicken-aura {
+    position: absolute;
+    left: -10px;
+    top: -25px;
+    width: 55px;
+    height: 80px;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.85;
+    border-radius: 50% 50% 60% 60%;
+    background:
+        radial-gradient(circle at 50% 80%, #fff700 0%, #fff700 40%, rgba(255,255,0,0.2) 70%, transparent 100%),
+        radial-gradient(circle at 50% 20%, #fff700 0%, #fff700 30%, rgba(255,255,0,0.1) 60%, transparent 100%),
+        linear-gradient(180deg, rgba(255,255,0,0.5) 0%, transparent 100%);
+    animation: auraGlow 1.2s infinite alternate, auraFlicker 0.18s infinite;
+}
+
+@keyframes auraGlow {
+    0% { filter: drop-shadow(0 0 12px #fff700) brightness(1.1); opacity: 0.8; }
+    50% { filter: drop-shadow(0 0 24px #fff700) brightness(1.3); opacity: 1; }
+    100% { filter: drop-shadow(0 0 12px #fff700) brightness(1.1); opacity: 0.8; }
+}
+@keyframes auraFlicker {
+    0% { transform: scaleY(1) scaleX(1); }
+    25% { transform: scaleY(1.05) scaleX(0.98); }
+    50% { transform: scaleY(0.95) scaleX(1.02); }
+    75% { transform: scaleY(1.08) scaleX(0.97); }
+    100% { transform: scaleY(1) scaleX(1); }
+}
+.chicken.gravity-up .chicken-aura {
+    transform: rotate(180deg) scaleX(-1);
+}
+.chicken.gravity-down .chicken-aura {
+    transform: rotate(0deg) scaleX(1);
+}
+

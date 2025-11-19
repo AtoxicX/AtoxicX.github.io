@@ -1,0 +1,468 @@
+/* Reset de estilos */
+* {
+    margin: 0;
+    padding: 0;
+}
+
+@import url("fondo.css");
+
+/* Estilo del cuerpo */
+body {
+    min-width: 100vw;
+    min-height: 100vh;
+    margin: 0;
+    background-color: #000;
+    color: #fff;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Contenedor para el título y subtítulo */
+.title-container {
+    text-align: center;
+    position: relative;
+    margin-bottom: 8px;
+}
+
+.subtitle {
+    text-align: center;
+    position: relative;
+    font-size: 16px;
+    color: #ccc;
+    margin-top: 8px;
+}
+
+.personajes {
+    display: flex;
+    justify-content: center; /* center the game container horizontally */
+    align-items: center;     /* align sidebars vertically with the game */
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 40px; /* space at sides for sidebars */
+    position: relative; /* allow dropdown to position relative to this container (outside game) */
+}
+
+.selector {
+    width: 50px;
+    height: 50px;
+    margin: 10px;
+}
+
+/* .selector:hover {
+    transform: scale(1.5); 
+    transition: .5s;
+    border-radius: 25px;
+    box-shadow: 0px 3px 15px 5px white;
+} */
+
+/* Contenedor del juego */
+.game-container {
+    position: relative;
+    margin: 0 auto;
+    width: 720px;
+    max-width: calc(100% - 160px);
+    height: 400px;
+    max-height: 70vh;
+    border: 2px solid #fff;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Ajuste para pantallas medianas (tablets) */
+@media (max-width: 1024px) {
+    .game-container {
+        width: 70vw;
+        height: 50vh;
+    }
+}
+
+/* Ajuste para pantallas pequeñas (smartphones en modo horizontal) */
+@media (max-width: 768px) {
+    .game-container {
+        min-width: 600px;
+        min-height: 400px;
+    }
+}
+
+/* Ajuste para pantallas muy pequeñas (smartphones en modo vertical) */
+@media (max-width: 480px) {
+    .game-container {
+        min-width: 100%;
+        min-height: 300px;
+        margin-left: 0;
+    }
+}
+
+.fullscreen-button {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    padding: 10px 15px;
+    font-size: 16px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: opacity 0.3s;
+    z-index: 1000; /* asegurar encima del fondo animado */
+    pointer-events: auto;
+}
+
+.fullscreen-button:hover {
+    opacity: 1;
+}
+
+/* Estilo de los pollos */
+.chicken {
+    width: 25px;
+    height: 25px;
+    position: absolute;
+    background-size: cover;
+    z-index: 1000;
+    transition: transform 0s;
+    transform: matrix(180);
+}
+
+/*Animacion de pollos cambiando de gravedad*/
+.chicken.gravity-down {
+    animation: contraccion 0.7s ease-in-out;
+    transform: rotate(0deg) scaleX(1);
+}
+
+.chicken.gravity-up {
+    animation: contraccion 0.7s ease-in-out;
+    transform: rotate(180deg) scaleX(-1);
+}
+
+/* Pollos individuales */
+#chicken1 {
+    left: 50px;
+    top: 275px; /* Posición inicial */
+}
+
+#chicken2 {
+    left: 50px;
+    top: 325px; /* Posición inicial */
+}
+
+/* Estilo de las plataformas */
+.platform {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    background-color: blue; /* Color inicial, excluyendo rojo */
+    border: 2px solid black; /* Borde negro que no cambia de color */
+    box-sizing: border-box;
+    border-radius: 5px;
+    z-index: 1; /* Asegura que las plataformas estén por debajo de los pollos */
+}
+
+/* Botón de Play Personalizado */
+.play-button {
+    width: 100px;
+    height: 100px;
+    background-color: rgba(0, 128, 0, 0.8); /* Verde opaco */
+    border: none;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000; /* Por encima del fondo animado */
+    transition: background-color 0.3s;
+}
+
+/* corner blobs */
+.corner-blob{
+    position: absolute;
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    border: 6px solid #fff;
+    z-index: 0;
+    pointer-events: none;
+}
+.corner-blob.left{
+    left: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 30% 30%, #ff4d4d 40%, #b30000 60%);
+}
+.corner-blob.right{
+    right: 0;
+    top: 0;
+    background: radial-gradient(circle at 70% 70%, #4d7bff 40%, #0033b3 60%);
+}
+
+/* top-right controls and panels */
+.top-right-controls{
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    display: flex;
+    gap: 6px;
+    z-index: 1100;
+}
+.top-right-controls .dropdown-toggle{
+    width: 30px;
+    height: 30px;
+    border-radius: 6px;
+    border: none;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    cursor: pointer;
+}
+.dropdown-panel{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 200px;
+    background: rgba(0, 0, 0, 0.9);
+    border: 2px solid #fff;
+    border-radius: 8px;
+    padding: 10px;
+    display: none;
+    z-index: 1000;
+}
+.dropdown-panel.open {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.chars-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+.char-box {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #ffffff80;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.3s, border-color 0.3s;
+}
+.char-box:hover {
+    transform: scale(1.1);
+    border-color: #ffffff80;
+}
+.char-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Ensure side character tables appear as vertical sidebars centered to the game */
+.personajes > .table:first-child{ /* left sidebar */
+    margin-right: 20px;
+}
+.personajes > .table:last-child{ /* right sidebar */
+    margin-left: 20px;
+}
+
+/* On small screens stack layout */
+@media (max-width: 800px) {
+    .personajes{flex-direction:column; padding: 10px;}
+    .personajes > .table{order:0; margin:8px 0;}
+    .game-container{width:100%; height: 50vh;}
+    .top-right-controls{right:16px;}
+}
+.char-box:hover{transform: scale(1.05); border-color: rgba(255,255,255,0.6); box-shadow: 0 4px 12px rgba(0,0,0,0.4);}
+.char-box.selected{outline: 3px solid #ffffff80; box-shadow: 0 6px 18px rgba(0,0,0,0.6);}
+.char-box .selector{width:44px; height:44px;}
+
+/* Visual markers for which player a character was assigned to */
+.char-box.assigned-p1{outline: 3px solid rgba(0,191,255,0.95); box-shadow: 0 6px 18px rgba(0,191,255,0.15);}
+.char-box.assigned-p2{outline: 3px solid rgba(255,123,0,0.95); box-shadow: 0 6px 18px rgba(255,123,0,0.15);}
+
+/* Selection box inside the game (used now for character selection) */
+.victory-screen.selection-screen {
+    display: block;
+    width: 80%;
+    max-width: 900px;
+    height: auto;
+    padding: 20px;
+}
+
+.selection-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.selection-wrapper .table {
+    background: transparent;
+}
+
+.selection-center {
+    width: 40%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ddd;
+}
+
+.selection-actions {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.play-button:hover {
+    background-color: rgba(0, 128, 0, 1); /* Verde más claro al pasar el mouse */
+}
+
+.play-button .triangle {
+    width: 0;
+    height: 0;
+    border-left: 20px solid white;
+    border-top: 12px solid transparent;
+    border-bottom: 12px solid transparent;
+}
+
+/* Pantalla de victoria centrada */
+.victory-screen {
+    position: relative;
+    margin: 0 auto;
+    transform: none;
+    width: 335px;
+    height: 200px;
+    background-color: rgba(0, 0, 0, 0.85);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    border: 2px solid #fff;
+    border-radius: 10px;
+}
+
+.victory-screen.hidden {
+    display: none;
+}
+
+.victory-screen h2 {
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+.winner {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.winner-chicken {
+    width: 33px;
+    height: 33px;
+    margin-right: 13px;
+}
+
+.trophy {
+    width: 33px;
+    height: 33px;
+    margin-right: 13px;
+}
+
+#winnerName {
+    font-size: 16px;
+}
+
+#retryButton {
+    padding: 7px 13px;
+    font-size: 12px;
+    cursor: pointer;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+}
+
+#retryButton:hover {
+    background-color: #218838;
+}
+
+/* top-left controls and panels */
+.top-left-controls {
+    position: absolute;
+    top: 32px;
+    left: 32px;
+    z-index: 1100;
+}
+.dropdown-toggle {
+    width: 90px;
+    height: 60px;
+    background: #888;
+    color: #fff;
+    border: none;
+    border-radius: 16px;
+    font-size: 1.3rem;
+    font-weight: bold;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+    cursor: pointer;
+    margin-bottom: 12px;
+    transition: background 0.2s, box-shadow 0.2s;
+}
+.dropdown-toggle:hover {
+    background: #666;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.28);
+}
+.dropdown-panel {
+    position: absolute;
+    top: 100px;
+    left: 32px;
+    width: 240px;
+    background: #888;
+    border: none;
+    border-radius: 24px;
+    padding: 24px 18px 18px 18px;
+    display: none;
+    z-index: 1000;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+}
+.dropdown-panel.open {
+    display: grid;
+    grid-template-rows: 1fr;
+    align-items: center;
+}
+.chars-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 18px;
+    margin-top: 8px;
+}
+.char-box {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid #fff;
+    border-radius: 14px;
+    background: #888;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+.char-box:hover {
+    border-color: #1976d2;
+    box-shadow: 0 4px 16px rgba(25,118,210,0.18);
+}
+.char-box img {
+    width: 90%;
+    height: 90%;
+    object-fit: contain;
+}

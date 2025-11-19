@@ -1,0 +1,263 @@
+* {
+	margin: 0;
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	min-height: 100vh;
+	min-width: 100vw;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: center;
+	background: linear-gradient(135deg, #0f2027 0%, #2c5364 100%);
+	animation: bgMove 8s linear infinite alternate;
+	overflow: hidden;
+}
+
+@keyframes bgMove {
+	0% { background-position: 0 0; }
+	100% { background-position: 100vw 100vh; }
+}
+
+
+.h1 {
+	margin: 40px 0 0 60px;
+	padding: 20px 40px;
+	text-align: left;
+	font-size: 2.2rem;
+	font-family: 'Magneto', cursive, sans-serif;
+	color: #fff700;
+	text-shadow: 0 2px 12px #222, 0 0 8px #ffd700;
+	letter-spacing: 2px;
+}
+
+.selector {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 80px;
+	width: 100vw;
+	margin-top: 60px;
+	position: relative;
+
+}
+
+.a1 {
+	display: flex;
+	align-items: center;
+	position: relative;
+	text-decoration: none;
+}
+
+.a2 {
+	display: flex;
+	align-items: center;
+	position: relative;
+	text-decoration: none;
+}
+
+/* @import url(fondo.css); */
+
+.div1 {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 270px;
+	height: 180px;
+	margin-right: 40px;
+	background: rgba(0, 40, 0, 0.7);
+	border: 4px solid #00ff00;
+	border-radius: 22px;
+	box-shadow: 0 0 32px 8px #00ff0044, 0 2px 18px #000a;
+	position: relative;
+	cursor: pointer;
+	transition: transform 0.3s, box-shadow 0.3s;
+	overflow: visible;
+}
+
+.div2 {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 270px;
+	height: 180px;
+	margin-left: 40px;
+	background: rgba(40, 40, 0, 0.7);
+	border: 4px solid #ffd700;
+	border-radius: 22px;
+	box-shadow: 0 0 32px 8px #ffd70044, 0 2px 18px #000a;
+	position: relative;
+	cursor: pointer;
+	transition: transform 0.3s, box-shadow 0.3s;
+	overflow: visible;
+}
+
+.div1:hover {
+	transform: scale(1.13) rotate(-3deg);
+	box-shadow: 0 0 64px 24px #00ff00cc, 0 8px 32px #000c, 0 0 80px 8px #00ff00aa inset;
+	border-color: #00ff88;
+	animation: epicHover1 0.7s;
+}
+
+.div2:hover {
+	transform: scale(1.13) rotate(3deg);
+	box-shadow: 0 0 64px 24px #ffd700cc, 0 8px 32px #000c, 0 0 80px 8px #ffd700aa inset;
+	border-color: #fff700;
+	animation: epicHover2 0.7s;
+}
+
+@keyframes epicHover1 {
+	0% { filter: brightness(1.2) drop-shadow(0 0 0px #00ff00); }
+	60% { filter: brightness(1.6) drop-shadow(0 0 24px #00ff00); }
+	100% { filter: brightness(1.3) drop-shadow(0 0 8px #00ff00); }
+}
+@keyframes epicHover2 {
+	0% { filter: brightness(1.2) drop-shadow(0 0 0px #ffd700); }
+	60% { filter: brightness(1.6) drop-shadow(0 0 24px #ffd700); }
+	100% { filter: brightness(1.3) drop-shadow(0 0 8px #ffd700); }
+}
+
+/* Botón de Play Personalizado */
+.play-button {
+	width: 80px;
+	height: 80px;
+	background: linear-gradient(135deg, #00ff00 0%, #008000 100%);
+	border: none;
+	border-radius: 50%;
+	position: relative;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%) scale(1);
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 5;
+	box-shadow: 0 4px 18px #00ff0044, 0 2px 8px #000a;
+	transition: transform 0.2s, box-shadow 0.2s;
+	animation: pulsePlay 1.2s infinite alternate;
+}
+
+.play-button:hover {
+	background: linear-gradient(135deg, #00ff88 0%, #00ff00 100%);
+	transform: translate(-50%, -50%) scale(1.13);
+	box-shadow: 0 0 32px 12px #00ff00aa, 0 4px 24px #000c;
+}
+
+.play-button .triangle {
+	display: block;
+	width: 0;
+	height: 0;
+	border-left: 22px solid #fff;
+	border-top: 14px solid transparent;
+	border-bottom: 14px solid transparent;
+	margin-left: 8px;
+	margin-top: 2px;
+	filter: drop-shadow(0 0 8px #00ff00cc);
+	transition: filter 0.3s;
+}
+
+.play-button2 {
+	width: 80px;
+	height: 80px;
+	background: linear-gradient(135deg, #ffd700 0%, #ffea00 100%);
+	border: none;
+	border-radius: 50%;
+	position: relative;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%) scale(1);
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 5;
+	box-shadow: 0 4px 18px #ffd70044, 0 2px 8px #000a;
+	transition: transform 0.2s, box-shadow 0.2s;
+	animation: pulsePlay2 1.2s infinite alternate;
+}
+
+.play-button2:hover {
+	background: linear-gradient(135deg, #fff700 0%, #ffd700 100%);
+	transform: translate(-50%, -50%) scale(1.13);
+	box-shadow: 0 0 32px 12px #ffd700aa, 0 4px 24px #000c;
+}
+
+.play-button2 .triangle2 {
+	display: block;
+	width: 0;
+	height: 0;
+	border-left: 22px solid #fff;
+	border-top: 14px solid transparent;
+	border-bottom: 14px solid transparent;
+	margin-left: 8px;
+	margin-top: 2px;
+	filter: drop-shadow(0 0 8px #ffd700cc);
+	transition: filter 0.3s;
+}
+
+@keyframes pulsePlay {
+	0% { box-shadow: 0 4px 18px #00ff0044, 0 2px 8px #000a; }
+	100% { box-shadow: 0 0 32px 12px #00ff00aa, 0 4px 24px #000c; }
+}
+@keyframes pulsePlay2 {
+	0% { box-shadow: 0 4px 18px #ffd70044, 0 2px 8px #000a; }
+	100% { box-shadow: 0 0 32px 12px #ffd700aa, 0 4px 24px #000c; }
+}
+
+/* Partículas decorativas */
+.level-particle {
+	position: absolute;
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	opacity: 0.7;
+	pointer-events: none;
+	z-index: 1;
+	filter: blur(1px);
+	animation: particleMove 2.5s linear infinite;
+}
+@keyframes particleMove {
+	0% { transform: scale(1) translateY(0); opacity: 0.7; }
+	50% { transform: scale(1.3) translateY(-18px); opacity: 1; }
+	100% { transform: scale(1) translateY(0); opacity: 0.7; }
+}
+
+.level-label {
+    position: relative;
+    top: -28px;
+    margin-bottom: 0;
+    margin-top: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 1.3rem;
+    color: #00ff00;
+    font-family: 'Magneto', monospace;
+    text-shadow: 0 2px 8px #000a, 0 0 8px #fff;
+    z-index: 10;
+    pointer-events: none;
+    background: none;
+}
+.div2 .level-label {
+    color: #ffd700;
+    text-shadow: 0 2px 8px #000a, 0 0 8px #fff;
+    position: relative;
+    top: -28px;
+    margin-bottom: 0;
+    margin-top: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 1.3rem;
+    font-family: 'Magneto', monospace;
+    z-index: 10;
+    pointer-events: none;
+    background: none;
+}
+.play-button i, .play-button2 i {
+    display: none;
+}
+

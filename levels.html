@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="styles2.css">
+	<link rel="stylesheet" href="fondo.css">
+	<!-- Boxicons Premium CDN -->
+	<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+	<title>Inicio</title>
+</head>
+
+<body>
+
+
+	 <div class="selector">
+		 <div class="div1">
+			 <a href="level-01.html" class="a1" style="display:flex;flex-direction:column;align-items:center;justify-content:center;">
+				 <div class="level-label">Nivel 1</div>
+				 <button id="playButton" class="play-button">
+					 <span class="triangle"></span>
+				 </button>
+			 </a>
+		 </div>
+		 <div class="div2">
+			 <a href="level-02.html" class="a2" style="display:flex;flex-direction:column;align-items:center;justify-content:center;">
+				 <div class="level-label">Nivel 2</div>
+				 <button id="playButton2" class="play-button2">
+					 <span class="triangle2"></span>
+				 </button>
+			 </a>
+		 </div>
+	 </div>
+
+	<audio src="song1.mp3" loop></audio>
+
+	<!-- HUD decorativo similar al control del juego -->
+	<div class="hud-control" aria-hidden="true"></div>
+
+ <script src="script.js" type="text/javascript"></script>
+
+</body>
+</html>
