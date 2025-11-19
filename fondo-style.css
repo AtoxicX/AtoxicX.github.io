@@ -1,0 +1,85 @@
+/*
+  CSS separado para `fondo-index.html`.
+  Comentarios en español explican cada bloque y su propósito.
+*/
+
+/* --- Reseteo / Layout base ---
+   Asegura que el html/body ocupen toda la pantalla y define el fondo gradiente.
+*/
+html, body {
+  height: 100%;
+  margin: 0;
+  background: linear-gradient(to bottom, #041a4b, #0b3fb8 50%, #0be0e0);
+  overflow: hidden;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Contenedor principal donde se colocan elementos posicionados absolutamente */
+.stage { position: fixed; inset: 0; pointer-events: none; overflow: hidden; }
+
+/* --- Sprites ---
+   Cada sprite es un elemento posicionado por JS; se fuerza 50x50 para consistencia.
+*/
+.sprite{
+  position: absolute;
+  left: 0; top: 0;
+  width: 50px; height: 50px;
+  will-change: left, top, opacity, transform; /* mejora rendimiento en animaciones */
+  opacity: 0.98;
+  filter: drop-shadow(0 6px 10px rgba(0,0,0,0.45));
+  z-index: 20;
+  transform-origin: center;
+}
+.depth-1, .depth-2, .depth-3 { transform-origin: center; width:50px; height:50px; }
+
+/* --- Keyframe de ejemplo (no usado por el script principal) ---
+   Se mantiene como referencia si en el futuro se animan sprites con CSS.
+*/
+@keyframes move45{
+  from{ transform: translate(var(--dx-start, -30vw), var(--dy-start, 0px)); }
+  to  { transform: translate(var(--dx-end, 120vw), var(--dy-end, 0px)); }
+}
+
+/* --- HUD (opcional visual) ---
+   Barra meramente decorativa para dar aspecto de reproducción.
+*/
+.hud{
+  position: fixed; left: 50%; top: 22px; transform: translateX(-50%);
+  z-index: 40; color: #fff; pointer-events: none;
+  display:flex; align-items:center; gap:16px;
+  background: rgba(0,0,0,0.18); padding:8px 14px; border-radius:10px;
+  border:1px solid rgba(255,255,255,0.06); backdrop-filter: blur(4px);
+}
+.hud .bar{ width:120px; height:8px; background: rgba(255,255,255,0.12); border-radius:999px; overflow:hidden }
+.hud .bar > i{ display:block; height:100%; width:40%; background: linear-gradient(90deg,#6cf,#0a8); }
+
+/* --- Partículas estáticas ---
+   Pequeños puntos añadidos para sensación de movimiento (creados por JS).
+*/
+.particles{ position:absolute; inset:0; pointer-events:none; z-index:5 }
+.particles span{ position:absolute; background: rgba(255,255,255,0.08); width:4px; height:4px; border-radius:50% }
+
+/* --- Suelo y techo (tiles) ---
+   Tiles de 50x50 px, sin separación, con borde negro y esquinas redondeadas.
+   Los colores de estos tiles se actualizan desde JS (ciclo sincronizado).
+*/
+.ground{ position: fixed; left:0; right:0; bottom:0; height:50px; z-index:30; pointer-events:none; display:flex; overflow:hidden }
+.ceiling{ position: fixed; left:0; right:0; top:0; height:50px; z-index:30; pointer-events:none; display:flex; overflow:hidden }
+.ground .tile, .ceiling .tile{ width:50px; height:50px; flex:0 0 50px; box-sizing:border-box; border:2px solid black; border-radius:10px; margin:0; padding:0 }
+
+/* --- Botón Play centrado ---
+   Botón redondo 150x150px, color verde claro, borde blanco y triángulo blanco centrado.
+   Se implementa como un <a> para permitir la navegación al juego.
+*/
+#playBtn{
+  position: fixed; left: 50%; top: 50%; transform: translate(-50%,-50%);
+  width:150px; height:150px; border-radius:50%;
+  background:#8ef3a6; border:6px solid #fff; display:flex; align-items:center; justify-content:center;
+  z-index:70; cursor:pointer; box-shadow:0 8px 18px rgba(0,0,0,0.35); transition: transform 0.12s ease, box-shadow 0.12s ease;
+  pointer-events:auto; text-decoration:none; color:inherit;
+}
+#playBtn:active{ transform: translate(-50%,-50%) scale(0.96); box-shadow:0 6px 12px rgba(0,0,0,0.28); }
+#playBtn:focus{ outline:3px solid rgba(255,255,255,0.22); outline-offset:6px }
+#playBtn .triangle{ width:0; height:0; border-left:44px solid #fff; border-top:28px solid transparent; border-bottom:28px solid transparent; margin-left:6px }
+
+/* Fin de CSS */

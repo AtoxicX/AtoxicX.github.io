@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Menu</title>
+  <link rel="stylesheet" href="fondo-style.css">
+</head>
+<body>
+
+  <div class="stage" id="stage"></div>
+  <div class="ceiling" id="ceiling" aria-hidden="true"></div>
+  <div class="ground" id="ground" aria-hidden="true"></div>
+
+  <div class="particles" id="particles"></div>
+
+  <!-- Play button (acts as a link to the game) -->
+  <a id="playBtn" href="levels.html" aria-label="Play" title="Play">
+    <span class="triangle" aria-hidden="true"></span>
+  </a>
+
+  <audio id="backgroundMusic" src="song-2.mp3" loop></audio>
+
+  <div id="glitch-block-container"></div>
+
+  <script src="fondo-script.js" defer></script>
+</body>
+</html>
