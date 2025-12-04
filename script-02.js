@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const chickens = [
     {
         element: chicken1,
-            gravity: 1, // 1 = down, -1 = up
+            gravity: 1,
             yPos: 275,
             xPos: 1000,
             velocity: 0,
@@ -80,9 +80,9 @@ document.addEventListener("DOMContentLoaded", function () {
         },
         {
             element: chicken2,
-            gravity: 1, // 1 = down, -1 = up
+            gravity: 1,
             yPos: 280,
-            xPos: 975, // 25 píxeles a la izquierda del Jugador 1
+            xPos: 975,
             velocity: 0,
             key: 'l',
             name: 'Jugador 2',
@@ -109,19 +109,13 @@ function selectCharacter(event, playerId, table) {
     el.classList.add("selected");
 }
 
-// Configura la selección de personajes para ambas tablas
 document.querySelectorAll("#player1Table td, #player2Table td").forEach(item => {
     item.addEventListener("click", (event) => {
-        // Determina si el clic fue en la tabla del jugador 1 o del jugador 2
         const playerId = item.closest("table").id === "player1Table" ? "chicken1" : "chicken2";
         const table = item.closest("table");
         selectCharacter(event, playerId, table);
     });
 });
-
-// Dropdown toggles for character panels
-// No dropdown toggles in this layout (sidebars visible)
-
 
     const fullscreenButton = document.getElementById("fullscreenButton");
 let fullscreenIcon = document.getElementById("fullscreenIcon");
@@ -146,7 +140,7 @@ function toggleFullScreen() {
         } else if (gameContainer.msRequestFullscreen) {
             gameContainer.msRequestFullscreen();
         }
-        if (fullscreenIcon) fullscreenIcon.className = "bx bx-exit"; // Cambiar a ícono de salir
+        if (fullscreenIcon) fullscreenIcon.className = "bx bx-exit";
     } else {
         if (document.exitFullscreen) {
             document.exitFullscreen();
@@ -157,7 +151,7 @@ function toggleFullScreen() {
         } else if (document.msExitFullscreen) {
             document.msExitFullscreen();
         }
-        if (fullscreenIcon) fullscreenIcon.className = "bx bx-fullscreen"; // Cambiar a ícono de pantalla completa
+        if (fullscreenIcon) fullscreenIcon.className = "bx bx-fullscreen";
     }
 }
 
@@ -169,26 +163,23 @@ document.addEventListener("fullscreenchange", () => {
     }
 });
         function updatePositions() {
-        // Esto ajusta las posiciones de los pollos continuamente
         chickens[1].xPos = chickens[0].xPos - 900;
         chickens[1].element.style.left = chickens[1].xPos + 'px';
     }
     
-    setInterval(updatePositions, 1000 / 30); // Actualiza 60 veces por segundo
-    
+    setInterval(updatePositions, 1000 / 30);
 
     const gravityForce = 2;
     const velocityMax = 5;
     const platformSpeed = 20;
-    const platformFrequency = 250; // Tiempo entre generación de plataformas (ms)
-    const colorChangeFrequency = 200; // Cambio de color cada 0.5 segundos
+    const platformFrequency = 250; 
+    const colorChangeFrequency = 200; 
 
-    const colors = ['green','cyan','cornflowerblue','pink','red','yellow']; // Excluir rojo
+    const colors = ['green','cyan','cornflowerblue','pink','red','yellow'];
     let currentColorIndex = 0;
 
     let isGameRunning = false;
 
-    // Puntaje
     let score = 0;
     const scoreEl = document.getElementById('score');
     function addScore(points) {
@@ -196,43 +187,35 @@ document.addEventListener("fullscreenchange", () => {
         if (scoreEl) scoreEl.textContent = score;
     }
 
-    // Función para iniciar el juego
     function startGame() {
         if (isGameRunning) return;
         isGameRunning = true;
-        playButton.style.display = 'none'; // Ocultar el botón de Play
+        playButton.style.display = 'none'; 
         victoryScreen.classList.add('hidden');
         resetPositions();
         clearPlatforms();
 
-        // Reproducir música de fondo solo si está pausada
         if (backgroundMusic.paused || backgroundMusic.currentTime === 0) {
             backgroundMusic.volume = 0.5;
             backgroundMusic.currentTime = 0;
             backgroundMusic.play().catch(()=>{});
         }
 
-        // Iniciar intervalos de juego
-        gameInterval = setInterval(updateGame, 15); // 50 FPS
+        gameInterval = setInterval(updateGame, 15);
         platformInterval = setInterval(generatePlatform, platformFrequency);
-        colorInterval = setInterval(changePlatformColors, colorChangeFrequency); // Cambio de colores
+        colorInterval = setInterval(changePlatformColors, colorChangeFrequency);
 
-        // Generar la plataforma inicial (estructura sólida)
         generateInitialFloor();
-
-        // Generar plataformas adicionales para empezar
         for (let i = 1; i <= 3; i++) {
             generatePlatform();
         }
     }
 
-    // Función para reintentar el juego
     retryButton.addEventListener("click", function () {
         clickSound.play();
         startGame();
     });
 
-    // Ajusta hitbox y posición inicial para pollos y plataformas
 const CHICKEN_SIZE = 35;
 const PLATFORM_SIZE = 35;
 chicken1.style.width = CHICKEN_SIZE + 'px';
@@ -240,14 +223,14 @@ chicken1.style.height = CHICKEN_SIZE + 'px';
 chicken2.style.width = CHICKEN_SIZE + 'px';
 chicken2.style.height = CHICKEN_SIZE + 'px';
 
-    // Función para generar una estructura inicial sólida
+    // ====================== MODIFICACIÓN DE ESTRUCTURAS =============================
     function generateInitialFloor() {
         const blockSize = PLATFORM_SIZE;
-        const xStart = 100;  // Posición centrada a la izquierda de la pantalla
-        const yStart = gameContainer.clientHeight - 150; // Posición inferior para la estructura
+        const xStart = 100;
+        const yStart = gameContainer.clientHeight - 150;
 
-        // Crear base de 10 bloques
-        for (let i = 0; i < 4; i++) {
+        // Base de 9 bloques
+        for (let i = 0; i < 9; i++) {
             const floorBlock = document.createElement('div');
             floorBlock.classList.add('platform');
             floorBlock.style.width = `${blockSize}px`;
@@ -255,7 +238,6 @@ chicken2.style.height = CHICKEN_SIZE + 'px';
             floorBlock.style.left = `${xStart + i * blockSize}px`;
             floorBlock.style.top = `${yStart}px`;
             floorBlock.style.backgroundColor = colors[currentColorIndex];
-
             gameContainer.appendChild(floorBlock);
 
             platforms.push({
@@ -267,57 +249,55 @@ chicken2.style.height = CHICKEN_SIZE + 'px';
             });
         }
 
-        // Crear bloques adicionales debajo de la base
+        // Columnas laterales (2 bloques cada una)
         for (let i = 0; i < 2; i++) {
-            const lowerBlock = document.createElement('div');
-            lowerBlock.classList.add('platform');
-            lowerBlock.style.width = `${blockSize}px`;
-            lowerBlock.style.height = `${blockSize}px`;
-            lowerBlock.style.left = `${xStart + (5 + i) * blockSize}px`; // Debajo del bloque central
-            lowerBlock.style.top = `${yStart + blockSize}px`; // Posicionado justo debajo
-            lowerBlock.style.backgroundColor = colors[currentColorIndex];
+            for (let j = 1; j <= 2; j++) {
+                const sideBlock = document.createElement('div');
+                sideBlock.classList.add('platform');
+                sideBlock.style.width = `${blockSize}px`;
+                sideBlock.style.height = `${blockSize}px`;
+                sideBlock.style.left = `${xStart + (i === 0 ? 0 : 8) * blockSize}px`;
+                sideBlock.style.top = `${yStart - j * blockSize}px`;
+                sideBlock.style.backgroundColor = colors[currentColorIndex];
+                gameContainer.appendChild(sideBlock);
 
-            gameContainer.appendChild(lowerBlock);
-
-            platforms.push({
-                element: lowerBlock,
-                xPos: xStart + (5 + i) * blockSize,
-                yPos: yStart + blockSize,
-                width: blockSize,
-                height: blockSize
-            });
+                platforms.push({
+                    element: sideBlock,
+                    xPos: xStart + (i === 0 ? 0 : 8) * blockSize,
+                    yPos: yStart - j * blockSize,
+                    width: blockSize,
+                    height: blockSize
+                });
+            }
         }
 
-        // Crear una estructura paralela encima de la base
+        // Unas escaleras laterales diagonales
         for (let i = 0; i < 4; i++) {
-            const upperBlock = document.createElement('div');
-            upperBlock.classList.add('platform');
-            upperBlock.style.width = `${blockSize}px`;
-            upperBlock.style.height = `${blockSize}px`;
-            upperBlock.style.left = `${xStart + i * blockSize}px`;
-            upperBlock.style.top = `${yStart - blockSize * 2}px`; // Dos bloques por encima
-            upperBlock.style.backgroundColor = colors[currentColorIndex];
-
-            gameContainer.appendChild(upperBlock);
+            const stairBlock = document.createElement('div');
+            stairBlock.classList.add('platform');
+            stairBlock.style.width = `${blockSize}px`;
+            stairBlock.style.height = `${blockSize}px`;
+            stairBlock.style.left = `${xStart + i * blockSize}px`;
+            stairBlock.style.top = `${yStart - (i+2) * blockSize}px`;
+            stairBlock.style.backgroundColor = colors[(currentColorIndex + i) % colors.length];
+            gameContainer.appendChild(stairBlock);
 
             platforms.push({
-                element: upperBlock,
+                element: stairBlock,
                 xPos: xStart + i * blockSize,
-                yPos: yStart - blockSize * 2,
+                yPos: yStart - (i+2) * blockSize,
                 width: blockSize,
                 height: blockSize
             });
         }
     }
 
-    // Función para generar plataformas adicionales
     function generatePlatform() {
         const blockSize = PLATFORM_SIZE;
-        let max = 4;
-        let min = 0; 
-        const platformLength = Math.floor(Math.random() * (max - min)) + 2 ; // Longitud entre 2 y 5 bloques
+        const platformLength = Math.floor(Math.random() * 6) + 4; // 4 a 9 bloques
+        const types = ['line', 'stair', 'zigzag', 'pyramid', 'hole', 'double'];
+        const type = types[Math.floor(Math.random() * types.length)];
 
-        // Alternar posiciones: upper, middle-up, middle-down, lower
         const positions = ['upper', 'middle-up', 'middle-down', 'lower'];
         let availablePositions = positions.filter(pos => pos !== lastPlatformPosition);
         const position = availablePositions[Math.floor(Math.random() * availablePositions.length)];
@@ -325,58 +305,85 @@ chicken2.style.height = CHICKEN_SIZE + 'px';
 
         let yPos;
         switch (position) {
-            case 'upper':
-                yPos = 100; // 100px desde arriba
-                break;
-                case 'middle-up':
-                yPos = gameContainer.clientHeight / 2 - 100; // Medio arriba
-                break;
-                case 'middle-down':
-                yPos = gameContainer.clientHeight / 2 + 50; // Medio abajo
-                break;
-                case 'lower':
-                yPos = gameContainer.clientHeight - 100; // 150px desde abajo
-                break;
-            }
+            case 'upper': yPos = 100; break;
+            case 'middle-up': yPos = gameContainer.clientHeight / 2 - 100; break;
+            case 'middle-down': yPos = gameContainer.clientHeight / 2 + 50; break;
+            case 'lower': yPos = gameContainer.clientHeight - 140; break;
+        }
 
-        // Determinar posición X (fuera de la pantalla a la derecha)
         const xStart = gameContainer.clientWidth;
 
-        // Crear múltiples bloques para formar una plataforma
-        for (let i = 0; i < platformLength; i++) {
+        function createPlatformBlock(x, y, color) {
             const platformBlock = document.createElement('div');
             platformBlock.classList.add('platform');
             platformBlock.style.width = `${blockSize}px`;
             platformBlock.style.height = `${blockSize}px`;
-            platformBlock.style.left = `${xStart + i * blockSize}px`;
-            platformBlock.style.top = `${yPos}px`;
-            platformBlock.style.backgroundColor = colors[currentColorIndex];
+            platformBlock.style.left = `${x}px`;
+            platformBlock.style.top = `${y}px`;
+            platformBlock.style.backgroundColor = color;
 
             gameContainer.appendChild(platformBlock);
-
             platforms.push({
                 element: platformBlock,
-                xPos: xStart + i * blockSize,
-                yPos: yPos,
+                xPos: x,
+                yPos: y,
                 width: blockSize,
                 height: blockSize
             });
         }
+
+        switch (type) {
+            case 'line':
+                for (let i = 0; i < platformLength; i++) {
+                    createPlatformBlock(xStart + i * blockSize, yPos, colors[(currentColorIndex + i) % colors.length]);
+                }
+                break;
+            case 'stair':
+                for (let i = 0; i < platformLength; i++) {
+                    createPlatformBlock(xStart + i * blockSize, yPos - i * 15, colors[(currentColorIndex + i) % colors.length]);
+                }
+                break;
+            case 'zigzag':
+                for (let i = 0; i < platformLength; i++) {
+                    const zig = (i % 2 === 0) ? 0 : 18;
+                    createPlatformBlock(xStart + i * blockSize, yPos + zig, colors[(currentColorIndex + i) % colors.length]);
+                }
+                break;
+            case 'pyramid':
+                const mid = Math.floor(platformLength / 2);
+                for (let i = 0; i < platformLength; i++) {
+                    const pyramidHeight = Math.abs(mid - i) * 15;
+                    createPlatformBlock(xStart + i * blockSize, yPos - pyramidHeight, colors[(currentColorIndex + i) % colors.length]);
+                }
+                break;
+            case 'hole':
+                for (let i = 0; i < platformLength; i++) {
+                    if (i !== Math.floor(platformLength / 2)) {
+                        createPlatformBlock(xStart + i * blockSize, yPos, colors[(currentColorIndex + i) % colors.length]);
+                    }
+                }
+                break;
+            case 'double':
+                for (let i = 0; i < platformLength; i++) {
+                    createPlatformBlock(xStart + i * blockSize, yPos, colors[currentColorIndex]);
+                    if (i % 2 === 0) {
+                        createPlatformBlock(xStart + i * blockSize, yPos - blockSize, colors[(currentColorIndex + 2) % colors.length]);
+                    }
+                }
+                break;
+        }
+    }
+    // ===================== FIN MODIFICACIÓN DE ESTRUCTURAS =========================
+
+    function changePlatformColors() {
+        currentColorIndex = (currentColorIndex + 1) % colors.length;
+        const newColor = colors[currentColorIndex];
+
+        platforms.forEach(platform => {
+            platform.element.style.backgroundColor = newColor;
+        });
     }
 
-  // Función para cambiar el color de todas las plataformas al mismo tiempo
-function changePlatformColors() {
-    // Incrementa el índice para cambiar al siguiente color en el arreglo
-    currentColorIndex = (currentColorIndex + 1) % colors.length;
-    const newColor = colors[currentColorIndex];
-
-    // Cambia el color de fondo de todos los bloques al nuevo color
-    platforms.forEach(platform => {
-        platform.element.style.backgroundColor = newColor;
-    });
-}
-
-    // Función para actualizar el estado del juego
     function updateGame() {
         moveChickens();
         movePlatforms();
@@ -384,33 +391,28 @@ function changePlatformColors() {
         checkWinConditions();
     }
 
-    // Función para mover los pollos
     function moveChickens() {
         chickens.forEach(chicken => {
-            // Aplicar gravedad y actualizar posición vertical
             chicken.velocity += gravityForce * chicken.gravity;
-            chicken.velocity = Math.max(Math.min(chicken.velocity, velocityMax), -velocityMax); // Limitar velocidad
+            chicken.velocity = Math.max(Math.min(chicken.velocity, velocityMax), -velocityMax); 
             chicken.yPos += chicken.velocity;
             chicken.element.style.top = chicken.yPos + 'px';
         });
     }
 
-    // Función para mover las plataformas
     function movePlatforms() {
         platforms.forEach((platform, index) => {
             platform.xPos -= platformSpeed;
             platform.element.style.left = `${platform.xPos}px`;
 
-            // Eliminar plataformas que salen de la pantalla
             if (platform.xPos + platform.width < 0) {
                 gameContainer.removeChild(platform.element);
                 platforms.splice(index, 1);
-                addScore(100); // Suma 100 puntos por cada bloque avanzado
+                addScore(100);
             }
         });
     }
 
-    // Función para detectar colisiones y gestionar cooldown
     function checkCollisions() {
         chickens.forEach(chicken => {
             let isOnPlatform = false;
@@ -420,54 +422,47 @@ function changePlatformColors() {
                 const platformTop = platform.yPos;
                 const platformBottom = platform.yPos + platform.height;
 
-                const chickenLeft = 50; // Posición fija en X (left: 50px)
+                const chickenLeft = 50; 
                 const chickenRight = chickenLeft + chicken.element.clientWidth;
-
                 const chickenTop = chicken.yPos;
                 const chickenBottom = chicken.yPos + chicken.element.clientHeight;
 
-                if (chicken.gravity === 1) { // Gravity down
-                    // Verificar si la parte inferior del pollo está sobre la parte superior de la plataforma
+                if (chicken.gravity === 1) {
                     if (
                         chickenBottom >= platformTop &&
-                        chickenBottom <= platformBottom + 5 && // Margen de error
+                        chickenBottom <= platformBottom + 5 &&
                         chickenLeft < platformRight &&
                         chickenRight > platformLeft
                         ) {
                         isOnPlatform = true;
-                    if (!chicken.onPlatform) {
-                            chicken.canChangeGravity = true; // Reset cooldown al aterrizar
-                            chicken.onPlatform = false;
-                            chicken.velocity = 0; // Detener la caída al estar en una plataforma
-                            chicken.yPos = platformTop - chicken.element.clientHeight; // Alinear al tope de la plataforma
-                            chicken.element.style.top = chicken.yPos + 'px';
-
-                            // Ajustar transform según la gravedad
-                            chicken.element.classList.remove('gravity-up');
-                            chicken.element.classList.add('gravity-down');
+                        if (!chicken.onPlatform) {
+                                chicken.canChangeGravity = true;
+                                chicken.onPlatform = false;
+                                chicken.velocity = 0;
+                                chicken.yPos = platformTop - chicken.element.clientHeight;
+                                chicken.element.style.top = chicken.yPos + 'px';
+                                chicken.element.classList.remove('gravity-up');
+                                chicken.element.classList.add('gravity-down');
+                            }
                         }
-                    }
-                } else { // Gravity up
-                    // Verificar si la parte superior del pollo está sobre la parte inferior de la plataforma
+                } else {
                     if (
                         chickenTop <= platformBottom &&
-                        chickenTop >= platformTop - 5 && // Margen de error
+                        chickenTop >= platformTop - 5 &&
                         chickenLeft < platformRight &&
                         chickenRight > platformLeft
                         ) {
                         isOnPlatform = true;
-                    if (!chicken.onPlatform) {
-                            chicken.canChangeGravity = true; // Reset cooldown al aterrizar
-                            chicken.onPlatform = true;
-                            chicken.velocity = 0; // Detener la subida al estar en una plataforma
-                            chicken.yPos = platformBottom;
-                            chicken.element.style.top = chicken.yPos + 'px';
-
-                            // Ajustar transform según la gravedad
-                            chicken.element.classList.remove('gravity-down');
-                            chicken.element.classList.add('gravity-up');
+                        if (!chicken.onPlatform) {
+                                chicken.canChangeGravity = true;
+                                chicken.onPlatform = true;
+                                chicken.velocity = 0;
+                                chicken.yPos = platformBottom;
+                                chicken.element.style.top = chicken.yPos + 'px';
+                                chicken.element.classList.remove('gravity-down');
+                                chicken.element.classList.add('gravity-up');
+                            }
                         }
-                    }
                 }
             });
 
@@ -477,41 +472,29 @@ function changePlatformColors() {
         });
     }
 
-    // Función para verificar condiciones de victoria
     function checkWinConditions() {
-        // Verificar si un jugador ha caído fuera del área de juego
         chickens.forEach(chicken => {
             if (chicken.yPos < -chicken.element.clientHeight || chicken.yPos > gameContainer.clientHeight) {
-                const winner = chickens.find(c => c !== chicken); // Encuentra al otro jugador
+                const winner = chickens.find(c => c !== chicken); 
                 endGame(winner);
             }
         });
     }
 
-    // Función para terminar el juego
     function endGame(winner) {
         if (!isGameRunning) return;
         clearInterval(gameInterval);
         clearInterval(platformInterval);
         clearInterval(colorInterval);
         isGameRunning = false;
-        // No mostramos el botón de Play nuevamente, solo el Retry
-
-        // Detener la música de fondo
         backgroundMusic.pause();
-
-        // Reproducir sonido de victoria
         victorySound.currentTime = 0;
         victorySound.play();
-
-        // Mostrar pantalla de victoria
         showVictoryScreen(winner);
     }
 
-    // Función para mostrar la pantalla de victoria
     function showVictoryScreen(winner) {
         winnerName.textContent = `${winner.name} ¡Gana!`;
-        // Intentar extraer imagen desde el elemento del jugador si está asignada como background-image
         let src = winner.gif || '';
         try {
             const bg = winner.element && winner.element.style && winner.element.style.backgroundImage;
@@ -527,7 +510,6 @@ function changePlatformColors() {
         victoryScreen.classList.remove('hidden');
     }
 
-    // Función para reiniciar posiciones de los pollos
     function resetPositions() {
         chickens.forEach(chicken => {
             chicken.yPos = chicken.element.id === 'chicken1' ? 150 : 200;
@@ -541,7 +523,6 @@ function changePlatformColors() {
         });
     }
 
-    // Función para limpiar todas las plataformas existentes
     function clearPlatforms() {
         platforms.forEach(platform => {
             if (gameContainer.contains(platform.element)) {
@@ -552,7 +533,6 @@ function changePlatformColors() {
         lastPlatformPosition = null;
     }
 
-    // Manejar el cambio de gravedad al presionar teclas
     document.addEventListener('keydown', function (e) {
         if (!isGameRunning) return;
 
@@ -560,10 +540,8 @@ function changePlatformColors() {
         chickens.forEach(chicken => {
             if (key === chicken.key && chicken.canChangeGravity) {
                 clickSound.play();
-                chicken.gravity *= -1; // Cambiar dirección de la gravedad
+                chicken.gravity *= -1; 
                 chicken.canChangeGravity = false;
-
-                // Añadir clase de gravedad
                 if (chicken.gravity === 1) {
                     chicken.element.classList.remove('gravity-up');
                     chicken.element.classList.add('gravity-down');
@@ -575,7 +553,6 @@ function changePlatformColors() {
         });
     });
 
-    // Iniciar el juego al hacer clic en el botón Play
     if (playButton) {
         playButton.addEventListener("click", function () {
             if (clickSound && clickSound.play) clickSound.play();
@@ -592,11 +569,9 @@ function changePlatformColors() {
 
 const image = document.getElementById('chicken1');
 
-// Escuchar el evento de teclado
 document.addEventListener('keydown', (e) => {
-    if (e.key.toUpperCase() === 'A') { // Comprobar si la tecla es 'A'
+    if (e.key.toUpperCase() === 'A') {
         if (!image) return;
-        // Alternar la clase 'mirrored'
         if (image.classList.contains('mirrored')) {
             image.classList.remove('mirrored');
         } else {
@@ -606,79 +581,69 @@ document.addEventListener('keydown', (e) => {
 });
 
 (function(){
-        const openBtn = document.getElementById('openChars');
-        const panel = document.getElementById('charsPanel');
-        const closeBtn = document.getElementById('closeChars');
-        const p1Input = document.getElementById('player1Selected');
-        const p2Input = document.getElementById('player2Selected');
-        const chicken1 = document.getElementById('chicken1');
-        const chicken2 = document.getElementById('chicken2');
+    const openBtn = document.getElementById('openChars');
+    const panel = document.getElementById('charsPanel');
+    const closeBtn = document.getElementById('closeChars');
+    const p1Input = document.getElementById('player1Selected');
+    const p2Input = document.getElementById('player2Selected');
+    const chicken1 = document.getElementById('chicken1');
+    const chicken2 = document.getElementById('chicken2');
 
-        function openPanel(){
-            panel.classList.add('open');
-            panel.setAttribute('aria-hidden','false');
-            openBtn.setAttribute('aria-expanded','true');
-        }
-        function closePanel(){
-            panel.classList.remove('open');
-            panel.setAttribute('aria-hidden','true');
-            openBtn.setAttribute('aria-expanded','false');
-        }
+    function openPanel(){
+        panel.classList.add('open');
+        panel.setAttribute('aria-hidden','false');
+        openBtn.setAttribute('aria-expanded','true');
+    }
+    function closePanel(){
+        panel.classList.remove('open');
+        panel.setAttribute('aria-hidden','true');
+        openBtn.setAttribute('aria-expanded','false');
+    }
 
-        openBtn && openBtn.addEventListener('click', function(e){
+    openBtn && openBtn.addEventListener('click', function(e){
+        e.stopPropagation();
+        if(panel.classList.contains('open')) closePanel(); else openPanel();
+    });
+    closeBtn && closeBtn.addEventListener('click', function(e){ e.stopPropagation(); closePanel(); });
+
+    let nextPlayer = 1;
+    panel && panel.querySelectorAll('.char-box').forEach(function(box){
+        box.addEventListener('click', function(e){
             e.stopPropagation();
-            if(panel.classList.contains('open')) closePanel(); else openPanel();
+            const chr = box.dataset.char || '';
+            const img = box.querySelector('img');
+            const imgSrc = img ? img.getAttribute('src') : '';
+
+            if(nextPlayer === 1){
+                const prev = document.querySelectorAll('#player1Panel .char-box');
+                prev.forEach(b=>b.classList.remove('assigned-p1'));
+                const target = document.querySelector(`#player1Panel .char-box[data-char="${chr}"]`);
+                if(target) target.classList.add('assigned-p1');
+                p1Input && (p1Input.value = chr);
+                if(chicken1 && imgSrc) chicken1.style.backgroundImage = `url('${imgSrc}')`;
+                nextPlayer = 2;
+            } else {
+                const prev2 = document.querySelectorAll('#player2Panel .char-box');
+                prev2.forEach(b=>b.classList.remove('assigned-p2'));
+                const target2 = document.querySelector(`#player2Panel .char-box[data-char="${chr}"]`);
+                if(target2) target2.classList.add('assigned-p2');
+                p2Input && (p2Input.value = chr);
+                if(chicken2 && imgSrc) chicken2.style.backgroundImage = `url('${imgSrc}')`;
+                nextPlayer = 1;
+            }
         });
-        closeBtn && closeBtn.addEventListener('click', function(e){ e.stopPropagation(); closePanel(); });
+    });
 
-        // assign first click to player1, second click to player2, then alternate
-        let nextPlayer = 1;
-        panel && panel.querySelectorAll('.char-box').forEach(function(box){
-            box.addEventListener('click', function(e){
-                e.stopPropagation();
-                const chr = box.dataset.char || '';
-                const img = box.querySelector('img');
-                const imgSrc = img ? img.getAttribute('src') : '';
-
-                if(nextPlayer === 1){
-                    // clear previous p1 selection visual
-                    const prev = document.querySelectorAll('#player1Panel .char-box');
-                    prev.forEach(b=>b.classList.remove('assigned-p1'));
-                    // mark selected in player1 panel
-                    const target = document.querySelector(`#player1Panel .char-box[data-char="${chr}"]`);
-                    if(target) target.classList.add('assigned-p1');
-                    p1Input && (p1Input.value = chr);
-                    if(chicken1 && imgSrc) chicken1.style.backgroundImage = `url('${imgSrc}')`;
-                    nextPlayer = 2;
-                } else {
-                    const prev2 = document.querySelectorAll('#player2Panel .char-box');
-                    prev2.forEach(b=>b.classList.remove('assigned-p2'));
-                    const target2 = document.querySelector(`#player2Panel .char-box[data-char="${chr}"]`);
-                    if(target2) target2.classList.add('assigned-p2');
-                    p2Input && (p2Input.value = chr);
-                    if(chicken2 && imgSrc) chicken2.style.backgroundImage = `url('${imgSrc}')`;
-                    nextPlayer = 1;
-                }
-            });
-        });
-
-        // close when clicking outside
-        document.addEventListener('click', function(e){
-            if(!panel) return;
-            if(!panel.contains(e.target) && e.target !== openBtn) closePanel();
-        });
-    })();
-
-    //revisa aqui copilot
+    document.addEventListener('click', function(e){
+        if(!panel) return;
+        if(!panel.contains(e.target) && e.target !== openBtn) closePanel();
+    });
+})();
 
 (function(){
   'use strict';
-
-  // Referencias a elementos del DOM con la clase .game-container
   const gameContainers = document.querySelectorAll('.game-container');
-
   gameContainers.forEach(container => {
-    // Crear y configurar el canvas para cada .game-container
     const canvas = document.createElement('canvas');
     canvas.className = 'starfield';
     canvas.setAttribute('aria-hidden','true');
@@ -693,8 +658,6 @@ document.addEventListener('keydown', (e) => {
 
     const ctx = canvas.getContext('2d');
     let DPR = Math.max(1, window.devicePixelRatio || 1);
-
-    // Ajusta el tamaño del canvas acorde al tamaño del contenedor y DPR
     function resizeCanvas(){
       DPR = Math.max(1, window.devicePixelRatio || 1);
       const w = container.clientWidth;
@@ -708,27 +671,23 @@ document.addEventListener('keydown', (e) => {
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
 
-    // Configuración de estrellas: posición, profundidad, tamaño y velocidad
     const numStars = 80;
     const stars = [];
     for(let i=0;i<numStars;i++){
       stars.push({
         x: Math.random() * container.clientWidth,
         y: Math.random() * container.clientHeight,
-        p: Math.random(), // factor de profundidad (0..1)
+        p: Math.random(),
         size: 0.5 + Math.random()*1.8,
         speed: 60 + Math.random()*200,
         prevX: null, prevY: null
       });
     }
 
-    // Bucle que dibuja las estrellas y produce el efecto de estela
     let lastFrame = performance.now();
     function drawStars(now){
       const dt = Math.max(0, (now - lastFrame) / 1000);
       lastFrame = now;
-
-      // Pinta un rectángulo semitransparente para desvanecer el frame previo (trail)
       ctx.fillStyle = 'rgba(2,6,20,0.22)';
       ctx.fillRect(0,0, canvas.width / DPR, canvas.height / DPR);
 
@@ -736,29 +695,22 @@ document.addEventListener('keydown', (e) => {
       for(const s of stars){
         s.prevX = s.prevX == null ? s.x : s.prevX;
         s.prevY = s.prevY == null ? s.y : s.prevY;
-
         const speedFactor = 0.6 + s.p * 3.2;
         s.x -= s.speed * speedFactor * dt;
         s.y += Math.sin((now * 0.001) + s.x * 0.001) * (0.2 + s.p * 0.8);
 
         if(s.x < -30){ s.x = container.clientWidth + Math.random() * 40; s.y = Math.random() * container.clientHeight; s.prevX = s.x; s.prevY = s.y; }
-
-        // Dibuja la raya (streak)
         ctx.beginPath();
         ctx.strokeStyle = `rgba(255,255,255,${0.06 + s.p * 0.6})`;
         ctx.lineWidth = s.size * (0.8 + s.p * 1.6);
         ctx.moveTo(s.prevX, s.prevY);
         ctx.lineTo(s.x, s.y);
         ctx.stroke();
-
-        // Cabeza brillante
         ctx.fillStyle = `rgba(255,255,255,${0.25 + s.p * 0.5})`;
         ctx.beginPath(); ctx.arc(s.x, s.y, Math.max(0.35, s.size * 0.45), 0, Math.PI * 2); ctx.fill();
-
         s.prevX = s.prevX * 0.7 + s.x * 0.3;
         s.prevY = s.prevY * 0.7 + s.y * 0.3;
       }
-
       requestAnimationFrame(drawStars);
     }
     requestAnimationFrame(drawStars);
