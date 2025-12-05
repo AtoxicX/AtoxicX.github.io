@@ -242,10 +242,11 @@ function addScore(points) {
             floorBlock.style.height = `${blockSize}px`;
             floorBlock.style.left = `${xStart + i * blockSize}px`;
             floorBlock.style.top = `${yStart}px`;
-            floorBlock.style.backgroundColor = colors[currentColorIndex];
-
+            floorBlock.style.background = '#000';
+            floorBlock.style.border = '4px solid #ff0000';
+            floorBlock.style.borderRadius = '6px';
+            floorBlock.style.boxShadow = '0 0 18px #000';
             gameContainer.appendChild(floorBlock);
-
             platforms.push({
                 element: floorBlock,
                 xPos: xStart + i * blockSize,
@@ -261,12 +262,13 @@ function addScore(points) {
             lowerBlock.classList.add('platform');
             lowerBlock.style.width = `${blockSize}px`;
             lowerBlock.style.height = `${blockSize}px`;
-            lowerBlock.style.left = `${xStart + (5 + i) * blockSize}px`; // Debajo del bloque central
-            lowerBlock.style.top = `${yStart + blockSize}px`; // Posicionado justo debajo
-            lowerBlock.style.backgroundColor = colors[currentColorIndex];
-
+            lowerBlock.style.left = `${xStart + (5 + i) * blockSize}px`;
+            lowerBlock.style.top = `${yStart + blockSize}px`;
+            lowerBlock.style.background = '#000';
+            lowerBlock.style.border = '4px solid #ff0000';
+            lowerBlock.style.borderRadius = '6px';
+            lowerBlock.style.boxShadow = '0 0 18px #000';
             gameContainer.appendChild(lowerBlock);
-
             platforms.push({
                 element: lowerBlock,
                 xPos: xStart + (5 + i) * blockSize,
@@ -283,11 +285,12 @@ function addScore(points) {
             upperBlock.style.width = `${blockSize}px`;
             upperBlock.style.height = `${blockSize}px`;
             upperBlock.style.left = `${xStart + i * blockSize}px`;
-            upperBlock.style.top = `${yStart - blockSize * 2}px`; // Dos bloques por encima
-            upperBlock.style.backgroundColor = colors[currentColorIndex];
-
+            upperBlock.style.top = `${yStart - blockSize * 2}px`;
+            upperBlock.style.background = '#000';
+            upperBlock.style.border = '4px solid #ff0000';
+            upperBlock.style.borderRadius = '6px';
+            upperBlock.style.boxShadow = '0 0 18px #000';
             gameContainer.appendChild(upperBlock);
-
             platforms.push({
                 element: upperBlock,
                 xPos: xStart + i * blockSize,
@@ -338,10 +341,11 @@ function addScore(points) {
             platformBlock.style.height = `${blockSize}px`;
             platformBlock.style.left = `${xStart + i * blockSize}px`;
             platformBlock.style.top = `${yPos}px`;
-            platformBlock.style.backgroundColor = colors[currentColorIndex];
-
+            platformBlock.style.background = '#000';
+            platformBlock.style.border = '4px solid #ff0000';
+            platformBlock.style.borderRadius = '6px';
+            platformBlock.style.boxShadow = '0 0 18px #000';
             gameContainer.appendChild(platformBlock);
-
             platforms.push({
                 element: platformBlock,
                 xPos: xStart + i * blockSize,
@@ -352,17 +356,16 @@ function addScore(points) {
         }
     }
 
-  // Función para cambiar el color de todas las plataformas al mismo tiempo
-function changePlatformColors() {
-    // Incrementa el índice para cambiar al siguiente color en el arreglo
-    currentColorIndex = (currentColorIndex + 1) % colors.length;
-    const newColor = colors[currentColorIndex];
 
-    // Cambia el color de fondo de todos los bloques al nuevo color
+// Animación glitcheada de bordes para plataformas
+const glitchColors = ['#ff0000', '#00ff00', '#00ffff', '#ff00ff', '#ffff00'];
+let glitchIndex = 0;
+setInterval(() => {
+    glitchIndex = (glitchIndex + 1) % glitchColors.length;
     platforms.forEach(platform => {
-        platform.element.style.backgroundColor = newColor;
+        platform.element.style.borderColor = glitchColors[glitchIndex];
     });
-}
+}, 100);
 
     // Función para actualizar el estado del juego
     function updateGame() {
