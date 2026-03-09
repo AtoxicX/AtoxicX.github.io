@@ -209,7 +209,7 @@ function addScore(points) {
         backgroundMusic.play();
 
         // Iniciar intervalos de juego
-        gameInterval = setInterval(updateGame, 20); // 50 FPS
+        gameInterval = setInterval(updateGame, 15); // 50 FPS
         platformInterval = setInterval(generatePlatform, platformFrequency);
         colorInterval = setInterval(changePlatformColors, colorChangeFrequency); // Cambio de colores
 
@@ -705,3 +705,4 @@ document.addEventListener("DOMContentLoaded", function () {
             if(!panel.contains(e.target) && e.target !== openBtn) closePanel();
         });
     })();
+
