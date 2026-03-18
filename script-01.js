@@ -1,5 +1,9 @@
 document.addEventListener("DOMContentLoaded", function () {
-            // Fondo canvas simple detrás de todo
+            document.addEventListener("DOMContentLoaded", function () {
+
+    const backgroundMusic = document.getElementById("backgroundMusic");
+    backgroundMusic.pause();
+    backgroundMusic.currentTime = 0;
             (function(){
                 'use strict';
                 const gameContainers = document.querySelectorAll('.game-container');
